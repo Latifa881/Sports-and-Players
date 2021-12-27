@@ -20,17 +20,7 @@ class SportTableViewController: UITableViewController {
         super.viewDidLoad()
 
         fetchAllItemsCoreData()
-//        for item in sports{
-//            managedObjectContext.delete(item)
-//
-//            do {
-//                try managedObjectContext.save()
-//
-//            }catch{
-//                print(error.localizedDescription)
-//            }
-//
-//        }
+
         
     }
 
@@ -103,7 +93,7 @@ class SportTableViewController: UITableViewController {
     
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        
         return sports.count
     }
 
@@ -119,11 +109,7 @@ class SportTableViewController: UITableViewController {
             cell.sportImageView.isHidden = false
             cell.sportImageView.image = UIImage(data: image)
             
-         //   cell.imageButton.titleLabel?.text = ""
-//            cell.imageButton.setImage(UIImage(data: image), for: .normal)
-//            cell.imageButton.contentVerticalAlignment = .fill
-//            cell.imageButton.contentHorizontalAlignment = .fill
-//            cell.imageButton.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
         }else{
             cell.imageButton.isHidden = false
             cell.sportImageView.isHidden = true
@@ -156,7 +142,7 @@ class SportTableViewController: UITableViewController {
                 
                 //edit core data
                 let item = self.sports[indexPath.row]
-//                guard let sportName = textField.text else {return}
+
                 item.name = textField.text
             
                 if self.managedObjectContext.hasChanges{

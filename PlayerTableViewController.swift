@@ -13,15 +13,12 @@ class PlayerTableViewController: UITableViewController {
     let managedObjectContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
         var sport : SportEntity!
-        
         var players = [PlayerEntity]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         title = sport.name
-        
-        
-     //   self.tableView.register(UITableViewCell.self, forCellWithReuseIdentifier: "PlayerCell")
         
        fetchAllItems()
         
@@ -31,6 +28,7 @@ class PlayerTableViewController: UITableViewController {
     func fetchAllItems(){
             
             let result:NSFetchRequest<PlayerEntity> = PlayerEntity.fetchRequest()
+
             let requestPredicate = NSPredicate(format: "ANY sports == %@", sport )
             result.predicate = requestPredicate
             
@@ -64,24 +62,19 @@ class PlayerTableViewController: UITableViewController {
                 if let playerName = alert?.textFields?[0] ,
                    let playerAge = alert?.textFields?[1],
                    let playerHeight = alert?.textFields?[2]{
-                   
                     
                     //Save to coredata
-    //                let thing = NSEntityDescription.insertNewObject(forEntityName: "PlayerEntity", into: self.managedObjectContext) as! PlayerEntity
-    //                thing.name = playerName.text
-                  
-                               
                     let newPlayer = PlayerEntity(context: self.managedObjectContext)
+                    
                     guard let playerName = playerName.text else {return }
                     newPlayer.name = playerName
+                    
                     guard let playerAge = Int64(playerAge.text!) else {return }
                     newPlayer.age = playerAge
-                    
-    //                thing.age = playerAge
+
                     guard let playerHieght = Double(playerHeight.text!)else {return }
                     newPlayer.hieght = playerHieght
-                   // self.sport.addPlayerObject(value: newPlayer)
-                    //self.players.append(newPlayer)
+                  
                     self.sport.addToPlayers(newPlayer)
             
                     if self.managedObjectContext.hasChanges{
@@ -96,12 +89,6 @@ class PlayerTableViewController: UITableViewController {
                     }
                     
                     self.fetchAllItems()
-                    
-                    //print
-                    for sport in self.players{
-                        print(sport.name!)
-                    }
-                    
                 }
                 
             }))
@@ -109,21 +96,20 @@ class PlayerTableViewController: UITableViewController {
         }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            // #warning Incomplete implementation, return the number of rows
             return players.count
         }
 
         
         override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: "PlayerCell", for: indexPath)
-            guard let sportName = players[indexPath.row].name else {return cell}
-
             
+            guard let sportName = players[indexPath.row].name else {return cell}
             cell.textLabel?.text = "\(sportName) - \(players[indexPath.row].age) - \(players[indexPath.row].hieght)"
 
             return cell
         }
-    // Override to support editing the table view.
+    
+        // Override to support editing the table view.
         override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
             
             let item = players[indexPath.row]
